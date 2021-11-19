@@ -1,0 +1,47 @@
+.Legends {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: cornflowerblue;
+}
+header {
+  width: 100%;
+  background-color: dodgerblue;
+  text-align: center;
+}
+header h1 {
+  font-size: calc(3vw + 5px);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.search {
+  height: calc(5vw + 5px);
+  background-color: greenyellow;
+  display: flex;
+  justify-content: center;
+}
+.search input {
+  margin: 0.8vw;
+  padding: 0 1.5vw;
+  width: 33vw;
+  border: none;
+  font-size: calc(1.5vw + 5px);
+}
+.search button {
+  margin: 0.8vw;
+  width: 10vw;
+  font-size: calc(1.5vw + 5px);
+  border: none;
+}
+.search button:hover {
+  background-color: black;
+  color: white;
+}
+
+progress {
+  height: 20px;
+}
