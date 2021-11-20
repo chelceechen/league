@@ -5,9 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Legends from "./lol/legends";
 
+import store from "./store";
+import { Provider } from "react-redux";
+
 ReactDOM.render(
   <React.StrictMode>
-    <Legends />
+    <Provider store={store}>
+      <Legends />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,75 +1,57 @@
 import { useState, useEffect } from "react";
 import axios, { Axios } from "axios";
 import "./legends.css";
+import Content from "./content";
 
-const data_init = {
-  summonerName: "",
-  summonerLevel: 0,
-  Solo_Duo: { tier: "", rank: "", wins: 0, losses: 0, totalgames: 0 },
-  Flex: { tier: "", rank: "", wins: 0, losses: 0, totalgames: 0 },
-};
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectLegends,
+  reNew,
+  setupSummonerName,
+  setupSummonerRank,
+} from "./legendsSlice";
 
 function Legends() {
   const [summonerName, setsummonerName] = useState("");
-  const [data, setData] = useState(data_init);
-  const [DDdata, setDDdata] = useState(null);
   const baseUrl = "https://na1.api.riotgames.com/";
   const apiKey = "RGAPI-9e4e4c98-790a-4842-8461-346866bd0a5b";
 
-  /* useEffect(() => {
-    const ddragon = new DDragon();
-    ddragon.champion.all().then(() => {
-      setDDdata(ddragon);
-    });
-  }, []);
- */
-  const getData = async () => {
-    let data_init_ = {
-      summonerName: "",
-      summonerLevel: 0,
-      Solo_Duo: { tier: "", rank: "", wins: 0, losses: 0, totalgames: 0 },
-      Flex: { tier: "", rank: "", wins: 0, losses: 0, totalgames: 0 },
-    };
-    setData(data_init_);
+  const dispatch = useDispatch();
+  const legendsInfor = useSelector(selectLegends);
 
+  const getData = async () => {
+    dispatch(reNew());
     try {
-      let data_ = data_init_;
       const res = await axios.get(
         `${baseUrl}lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiKey}`
       );
 
-      data_.summonerName = res.data.name;
-      data_.summonerLevel = res.data.summonerLevel;
-      setData(data_);
+      dispatch(
+        setupSummonerName({
+          summonerName: res.data.name,
+          summonerLevel: res.data.summonerLevel,
+        })
+      );
 
-      const rank = await axios.get(
+      const rank_ = await axios.get(
         `${baseUrl}lol/league/v4/entries/by-summoner/${res.data.id}?api_key=${apiKey}`
       );
-      [
-        data_.Solo_Duo.tier,
-        data_.Solo_Duo.rank,
-        data_.Solo_Duo.wins,
-        data_.Solo_Duo.losses,
-        data_.Solo_Duo.totalgames,
-        data_.Flex.tier,
-        data_.Flex.rank,
-        data_.Flex.wins,
-        data_.Flex.losses,
-        data_.Flex.totalgames,
-      ] = [
-        rank.data[0].tier,
-        rank.data[0].rank,
-        rank.data[0].wins,
-        rank.data[0].losses,
-        rank.data[0].wins + rank.data[0].losses,
-        rank.data[1].tier,
-        rank.data[1].rank,
-        rank.data[1].wins,
-        rank.data[1].losses,
-        rank.data[1].wins + rank.data[1].losses,
-      ];
 
-      setData(data_);
+      console.log(rank_);
+      dispatch(
+        setupSummonerRank({
+          Solo_DuoTier: rank_.data[0].tier,
+          Solo_DuoRank: rank_.data[0].rank,
+          Solo_DuoWins: rank_.data[0].wins,
+          Solo_DuoLosses: rank_.data[0].losses,
+          Solo_DuoTotalgames: rank_.data[0].wins + rank_.data[0].losses,
+          FlexTier: rank_.data[2].tier,
+          FlexRank: rank_.data[2].rank,
+          FlexWins: rank_.data[2].wins,
+          FlexLosses: rank_.data[2].losses,
+          FlexTotalgames: rank_.data[2].wins + rank_.data[2].losses,
+        })
+      );
     } catch (error) {
       console.log(error);
     }
@@ -81,19 +63,7 @@ function Legends() {
   };
 
   const display = () => {
-    console.log(data);
-  };
-
-  const content = () => {
-    return (
-      <div>
-        wsss{data}
-        sd{" "}
-      </div>
-    );
-    /* if (data.summonerName !== "") {
-      return <div>{data.summonerName}</div>;
-    } */
+    console.log(legendsInfor);
   };
 
   return (
@@ -116,10 +86,15 @@ function Legends() {
           <button onClick={display}>Test</button>
         </div>
 
-        <div>sss{content}</div>
+        {legendsInfor.summonerName !== "" ? (
+          <>
+            {legendsInfor.summonerName}
+            {legendsInfor.summonerLevel}
+          </>
+        ) : (
+          <></>
+        )}
       </main>
-
-      <progress value="80" max="100"></progress>
     </div>
   );
 }
