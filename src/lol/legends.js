@@ -14,7 +14,7 @@ import {
 function Legends() {
   const [summonerName, setsummonerName] = useState("");
   const baseUrl = "https://na1.api.riotgames.com/";
-  const apiKey = "RGAPI-9e4e4c98-790a-4842-8461-346866bd0a5b";
+  const apiKey = "RGAPI-98f40c3b-44d2-4c39-98c8-c5fd4d5dcfab";
 
   const dispatch = useDispatch();
   const legendsInfor = useSelector(selectLegends);
@@ -86,14 +86,22 @@ function Legends() {
           <button onClick={display}>Test</button>
         </div>
 
-        {legendsInfor.summonerName !== "" ? (
-          <>
-            {legendsInfor.summonerName}
-            {legendsInfor.summonerLevel}
-          </>
-        ) : (
-          <></>
-        )}
+        <div className="summonerInfor">
+          {legendsInfor.summonerName !== "" ? (
+            <>
+              <div className="summonerName">
+                {legendsInfor.summonerName}
+                {legendsInfor.summonerLevel}
+              </div>
+              <div className="summonerName">
+                {legendsInfor.summonerName}
+                {legendsInfor.summonerLevel}
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
       </main>
     </div>
   );

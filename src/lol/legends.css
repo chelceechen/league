@@ -41,6 +41,11 @@ main {
   color: white;
 }
 
-progress {
-  height: 20px;
+.summonerInfor {
+  display: flex;
+  flex-direction: column;
+  background-color: gold;
+}
+
+.summonerName {
 }
