@@ -1,4 +1,5 @@
 import "./App.css";
+import "antd/dist/antd.css";
 import { useState, useEffect } from "react";
 import axios, { Axios } from "axios";
 import IRON_ from "./image/rank/iron.png";
@@ -11,7 +12,8 @@ import MASTER_ from "./image/rank/master.png";
 import GRANDMASTER_ from "./image/rank/grandmaster.png";
 import CHALLENGER_ from "./image/rank/challenger.png";
 
-import iconImage from "./image/icon.png";
+import logo from "./image/logo.png";
+import { Progress } from "antd";
 
 function App() {
   const [summonerName, setsummonerName] = useState("");
@@ -21,7 +23,7 @@ function App() {
   const [level, setLevel] = useState(0);
 
   const baseUrl = "https://na1.api.riotgames.com/";
-  const apiKey = "RGAPI-e5758ff2-3753-4502-8384-d28a897aa4c7";
+  const apiKey = "RGAPI-ef4240b8-c4d1-4363-bb6c-a3684289a3f9";
 
   const rankImageMatch = {
     IRON: IRON_,
@@ -36,6 +38,7 @@ function App() {
   };
 
   const getData = async () => {
+    setData(null);
     try {
       const res = await axios.get(
         `${baseUrl}lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiKey}`
@@ -45,30 +48,30 @@ function App() {
       //判断有没有输入错误名字
       setHasAcc(true);
 
-      const rank = await axios.get(
-        `${baseUrl}lol/league/v4/entries/by-summoner/${res.data.id}?api_key=${apiKey}`
-      );
-      setData(rank.data);
+      let noRankData = {
+        rank: "",
+      };
 
-      let winRate = Math.floor(
-        (rank.data[1].wins / (rank.data[1].wins + rank.data[1].losses)) * 100
-      );
+      setData(noRankData);
 
-      if (winRate <= 50) {
-        let rightDegree = winRate * 3.6 - 135;
-        document.getElementById("rightPart").style.transform =
-          "rotate(" + rightDegree.toString() + "deg)";
-        document.getElementById("leftPart").style.transform = "rotate(-135deg)";
-      } else {
-        let leftDegree = (winRate - 50) * 3.6 - 135;
+      try {
+        const rank = await axios.get(
+          `${baseUrl}lol/league/v4/entries/by-summoner/${res.data.id}?api_key=${apiKey}`
+        );
 
-        document.getElementById("rightPart").style.transform = "rotate(45deg)";
-        document.getElementById("leftPart").style.transform =
-          "rotate(" + leftDegree.toString() + "deg)";
+        for (let i = 0; i < rank.data.length; i++) {
+          if (rank.data[i].queueType === "RANKED_SOLO_5x5") {
+            setData(rank.data[i]);
+            console.log(rank.data[i], 123);
+          }
+        }
+      } catch (error) {
+        console.log(error);
       }
     } catch (error) {
       setHasAcc(false);
       setData(123);
+      console.log(error);
     }
   };
   const handleClick = () => {
@@ -80,83 +83,104 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Summoner's Rank</h1>
-      <div className="searchBar">
-        <input
-          value={summonerName}
-          placeholder="summonerName"
-          type="text"
-          onChange={(e) => {
-            setsummonerName(e.target.value);
-          }}
-        />
-        <div>123</div>
-        <button onClick={handleClick}>Search</button>
-      </div>
-      {data ? (
-        hasAcc ? (
-          data.length > 0 ? (
-            <div className="hasRank">
-              <div className="topSide">
-                <div>
-                  <img className="iconImage" alt="" src={iconImage} />
-                </div>
-                <div className="topSideWords">
-                  <div>{data[1].summonerName} #NA1</div>
-                  <div className="test">
-                    Level:{level}-{data[1].tier} {data[1].rank}
-                  </div>
-                  <div> LeaguePoints: {data[1].leaguePoints} LP</div>
-                </div>
+      <header>
+        <div className="logoImg">
+          <div className="empty"></div>
+          <div className="imgBox">
+            <img alt="" src={logo} />
+          </div>
 
-                <div>
-                  <img
-                    className="rankImage"
-                    alt=""
-                    src={rankImageMatch[data[1].tier]}
-                  />
-                </div>
-              </div>
-              <div className="bottomSide">
-                <div className="circleProgress_wrapper">
-                  <div className="rate">
-                    {Math.floor(
-                      (data[1].wins / (data[1].wins + data[1].losses)) * 100
-                    )}
-                    %
+          <div className="empty"></div>
+        </div>
+        <div className="headerWords">
+          <div className="empty"></div>
+          <h1>Summoner's Rank</h1>
+          <div className="searchBar">
+            <input
+              value={summonerName}
+              placeholder="summonerName"
+              type="text"
+              onChange={(e) => {
+                setsummonerName(e.target.value);
+              }}
+            />
+            <button onClick={handleClick}>Search</button>
+          </div>
+          <div className="empty"></div>
+        </div>
+      </header>
+      <main>
+        <div className="rank">
+          {data ? (
+            hasAcc ? (
+              data.rank !== "" ? (
+                <div className="hasRank">
+                  <div className="topSide">
+                    <div className="topSideWords">
+                      <div className="name">Name: {data.summonerName} #NA1</div>
+                      <div className="level">
+                        Level:{level}-{data.tier} {data.rank}
+                      </div>
+                      <div className="points">
+                        LeaguePoints: {data.leaguePoints} LP
+                      </div>
+                    </div>
+
+                    <div>
+                      <img
+                        className="rankImage"
+                        alt=""
+                        src={rankImageMatch[data.tier]}
+                      />
+                    </div>
                   </div>
-                  <div className="wrapperRight">
-                    <div className="baseRightcircle"></div>
-                    <div
-                      className="circleProgressRightcircle"
-                      id="rightPart"
-                    ></div>
-                  </div>
-                  <div className="wrapperLeft">
-                    <div className="baseLeftcircle"></div>
-                    <div
-                      className="circleProgressLeftcircle"
-                      id="leftPart"
-                    ></div>
+                  <div className="bottomSide">
+                    <Progress
+                      className="progress"
+                      type="circle"
+                      style={{ fontSize: "2vw", color: "white" }}
+                      percent={Math.floor(
+                        (data.wins / (data.wins + data.losses)) * 100
+                      )}
+                      strokeWidth={"10"}
+                      width={"calc(10vw + 3px)"}
+                    />
+
+                    <div className="bottomSideWords">
+                      <div> Wins: {data.wins}</div>
+                      <div> Loses: {data.losses}</div>
+                      <div>
+                        WinRate:{" "}
+                        {Math.floor(
+                          (data.wins / (data.wins + data.losses)) * 100
+                        )}
+                        %
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="winLose">
-                  <div> Wins: {data[1].wins}</div>
-                  <div> Loses: {data[1].losses}</div>
+              ) : (
+                <div className="noRank">
+                  Name:{typeName}
+                  <div>Level:{level}</div>
+                  <div>This player haven't played rank</div>
                 </div>
-              </div>
-            </div>
-          ) : (
-            <div className="noRank">
-              Name:{typeName}
-              <div>Level:{level}</div>
-              <div>This player haven't played rank</div>
-            </div>
-          )
-        ) : (
-          <div className="wrongName">{typeName} does not exist</div>
-        )
-      ) : null}
+              )
+            ) : (
+              <div className="wrongName">Player {typeName} does not exist</div>
+            )
+          ) : null}
+        </div>
+      </main>
+      <div className="testCase">
+        TestCase:
+        <br />
+        "BiAnHua": Has league of lengend account and played rank.
+        <br />
+        "okeydokeycn": Has league of lengend account and haven't played rank
+        <br />
+        "sdfasdfasdfwe": Wrong Name
+      </div>
     </div>
   );
 }

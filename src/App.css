@@ -1,21 +1,14 @@
 .App {
-  opacity: 1;
-  font-family: "M PLUS Code Latin", sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-h1 {
-  text-align: center;
-  font-size: 60px;
-  color: white;
-  text-shadow: 5px 5px #252222;
+  height: 100vh;
+  width: 100vw;
 }
 
 .App::before {
   content: "";
-  background-image: url("./image/background.jpg");
-  background-size: 100%;
+  background-image: url("./image/bgc.jpg");
+  background-size: 100vw 100vh;
   opacity: 0.75;
   top: 0;
   left: 0;
@@ -25,156 +18,175 @@ h1 {
   z-index: -1;
 }
 
+header {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.logoImg {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+}
+
+.imgBox {
+  flex: 2;
+  display: flex;
+  justify-content: right;
+}
+
+.imgBox img {
+  height: 100%;
+  width: 50%;
+}
+
+.headerWords {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  justify-content: center;
+}
+.empty {
+  flex: 1;
+}
+
+header h1 {
+  flex: 1;
+  margin: 0;
+  margin-left: 3vw;
+  font-size: calc(3vw + 15px);
+  color: white;
+  text-shadow: 5px 5px #252222;
+  font-weight: bold;
+  font-family: "M PLUS Code Latin", sans-serif;
+}
+
 .searchBar {
-  line-height: 50px;
+  flex: 1;
+  height: calc(3vw + 5px);
   text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-left: 3vw;
 }
 .searchBar input {
-  line-height: 50px;
-  padding: 5px 15px;
-  font-size: 30px;
-  margin: 10px;
+  margin-right: 1vw;
+  height: 3vw;
+  font-size: calc(2vw + 2px);
   border-radius: 9px;
   border: none;
+  font-family: "M PLUS Code Latin", sans-serif;
+  font-weight: bold;
 }
 
 .searchBar button {
-  line-height: 50px;
-  padding: 5px 15px;
-  font-size: 30px;
+  font-size: calc(2vw + 2px);
+  height: 3vw;
   border-radius: 9px;
   background-color: #97c1eb;
   color: white;
   border: none;
+  font-family: "M PLUS Code Latin", sans-serif;
+  font-weight: bold;
 }
 .searchBar button:hover {
   background-color: rgb(56, 93, 141);
 }
-.hasRank {
+
+main {
+  flex: 4;
   display: flex;
   flex-direction: column;
-  font-size: 36px;
-  font-weight: bold;
-  color: rgb(255, 255, 255);
-  text-shadow: 2px 2px #252222;
+  justify-content: center;
   /* background-color: blue; */
+  overflow: hidden;
+}
+
+.rank {
+  display: flex;
+  flex-direction: column;
+  font-size: calc(2vw + 10px);
+  font-weight: bold;
+  color: white;
+  align-items: center;
+  font-family: "M PLUS Code Latin", sans-serif;
+  font-weight: bold;
 }
 
 .topSide {
   display: flex;
   flex-direction: row;
-  padding-top: 8%;
+  flex: 1;
+}
+
+.topSideWords {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  text-shadow: 3px 3px #252222;
+}
+
+.name {
+  margin: 0;
+  flex: 1;
+}
+.level {
+  margin: 0;
+
+  flex: 1;
+}
+.points {
+  margin: 0;
+  flex: 1;
 }
 
 .rankImage {
+  flex: 1;
   padding-left: 10%;
-  width: 150px;
-  height: 150px;
-}
-
-.iconImage {
-  margin-right: 20px;
-  width: 100px;
-  height: 100px;
-  padding-top: 15%;
-}
-
-.circleProgress_wrapper {
-  width: 100px;
-  height: 100px;
-  margin: 10px 25px;
-  margin-left: 0;
-  position: relative;
-  /* background-color: red; */
-}
-
-.wrapperRight {
-  width: 50px;
-  height: 100px;
-  position: absolute;
-  top: 0;
-  overflow: hidden;
-  right: 0;
-}
-
-.wrapperLeft {
-  width: 50px;
-  height: 100px;
-  position: absolute;
-  top: 0;
-  overflow: hidden;
-  left: 0;
-}
-
-.circleProgressRightcircle {
-  width: 80px;
-  height: 80px;
-  border: 10px solid transparent;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  z-index: 100;
-  transform: rotate(-135deg);
-  border-top: 10px solid #6598cc;
-  border-right: 10px solid #6598cc;
-  right: 0;
-}
-
-.circleProgressLeftcircle {
-  width: 80px;
-  height: 80px;
-  border: 10px solid transparent;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  z-index: 100;
-  transform: rotate(-135deg);
-  border-bottom: 10px solid #6598cc;
-  border-left: 10px solid #6598cc;
-  left: 0;
-}
-
-.baseRightcircle {
-  width: 80px;
-  height: 80px;
-  border: 10px solid transparent;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  z-index: 10;
-  transform: rotate(45deg);
-  border-top: 10px solid rgb(255, 255, 255);
-  border-right: 10px solid rgb(255, 255, 255);
-  right: 0;
-}
-.baseLeftcircle {
-  width: 80px;
-  height: 80px;
-  border: 10px solid transparent;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  z-index: 10;
-  transform: rotate(45deg);
-  border-bottom: 10px solid rgb(255, 255, 255);
-  border-left: 10px solid rgb(255, 255, 255);
-  left: 0;
-}
-
-.rate {
-  position: absolute;
-  width: 60px;
-  height: 25px;
-  top: 35px;
-  left: 20px;
-  font-size: 25px;
-  text-align: center;
+  width: calc(10vw + 3px);
+  height: calc(10vw + 3px);
 }
 
 .bottomSide {
   display: flex;
   flex-direction: row;
+  flex: 1;
+  /* background-color: red; */
+  margin-top: 2vw;
+}
 
-  align-items: center;
-  justify-content: left;
+.progress {
+  /* background-color: yellow; */
+  flex: 1;
+}
+
+.bottomSideWords {
+  flex: 3;
+  text-shadow: 3px 3px #252222;
+  margin-left: calc(2vw + 10px);
+}
+
+.noRank {
+  margin-top: calc(2vw + 10px);
+  text-shadow: 3px 3px #252222;
+}
+
+.wrongName {
+  margin-top: calc(2vw + 10px);
+  margin-left: calc(3vw + 10px);
+  text-shadow: 3px 3px #252222;
+}
+
+.testCase {
+  font-family: "M PLUS Code Latin", sans-serif;
+  font-size: calc(1vw + 1px);
+  color: white;
+  text-shadow: 5px 5px #252222;
+  font-weight: bold;
+  flex: 1;
 }
