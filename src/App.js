@@ -175,7 +175,10 @@ function App() {
       <div className="testCase">
         TestCase:
         <br />
-        "BiAnHua": Has league of lengend account and played rank.
+        "BiAnHua": Has league of lengend account and played rank(platinum).
+        <br />
+        "Nico is peppapig": Has league of lengend account and played
+        rank(master).
         <br />
         "okeydokeycn": Has league of lengend account and haven't played rank
         <br />
