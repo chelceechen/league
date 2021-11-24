@@ -163,7 +163,7 @@ function App() {
                 <div className="noRank">
                   Name:{typeName}
                   <div>Level:{level}</div>
-                  <div>This player haven't played rank</div>
+                  <div>This player haven't played any rank</div>
                 </div>
               )
             ) : (
