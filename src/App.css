@@ -110,7 +110,7 @@ main {
 .rank {
   display: flex;
   flex-direction: column;
-  font-size: calc(2vw + 10px);
+  font-size: calc(1vw + 20px);
   font-weight: bold;
   color: white;
   align-items: center;
