@@ -40,7 +40,8 @@ function Legends() {
   const [summonerName, setsummonerName] = useState("");
   const [windowWidth, setWindowWidth] = useState();
   const baseUrl = "https://na1.api.riotgames.com/";
-  const apiKey = "RGAPI-7e00b7de-c368-4f1d-964c-64185f24a4de";
+  const apiKey = "RGAPI-388d4ede-5be7-435d-9110-b8944443a1c9";
+  const [searchCount, setSearchCount] = useState(0);
 
   const dispatch = useDispatch();
   const legendsInfor = useSelector(selectLegends);
@@ -52,6 +53,8 @@ function Legends() {
 
   const getData = async () => {
     dispatch(reNew());
+    let searchCount_ = searchCount;
+    searchCount_++;
     try {
       const res = await axios.get(
         `${baseUrl}lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiKey}`
@@ -67,7 +70,7 @@ function Legends() {
       const rank_ = await axios.get(
         `${baseUrl}lol/league/v4/entries/by-summoner/${res.data.id}?api_key=${apiKey}`
       );
-      console.log(rank_);
+      //console.log(rank_);
       for (let i = 0; i <= rank_.data.length; i++) {
         if (rank_.data[i].queueType === "RANKED_SOLO_5x5") {
           dispatch(
@@ -95,8 +98,17 @@ function Legends() {
         }
       }
       //console.log(rank_);
+      if (summonerName !== "") {
+        console.log(summonerName);
+        setSearchCount(searchCount_);
+      }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
+      console.log("error", summonerName);
+      if (summonerName !== "") {
+        console.log(summonerName);
+        setSearchCount(searchCount_);
+      }
     }
   };
 
@@ -282,7 +294,13 @@ function Legends() {
               </div>
             </>
           ) : (
-            <div className="summonerName">Summoner Name not Found!</div>
+            <>
+              {searchCount !== 0 ? (
+                <div className="summonerName">Summoner Name not Found!</div>
+              ) : (
+                <></>
+              )}
+            </>
           )}
         </div>
       </main>
