@@ -9,6 +9,7 @@ header {
   text-align: center;
 }
 header h1 {
+  color: white;
   font-size: calc(3vw + 5px);
 }
 
@@ -43,9 +44,104 @@ main {
 
 .summonerInfor {
   display: flex;
+  min-height: 500px;
   flex-direction: column;
   background-color: gold;
 }
 
 .summonerName {
+  font-size: calc(1.5vw + 15px);
+  text-align: center;
+  border-bottom: solid 3px black;
+}
+
+.rank {
+  display: flex;
+  justify-content: space-between;
+}
+
+.RankBox {
+  margin: 1vw 10vw;
+  width: 30%;
+  min-height: 40vw;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+
+  border: solid 3px black;
+}
+/* rank contents*/
+.RankBox h2 {
+  margin: 0;
+  text-align: center;
+  background-color: springgreen;
+  font-size: calc(1.5vw + 5px);
+  border-bottom: solid 2px black;
+}
+.content1 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.content1Infor {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  background-color: greenyellow;
+}
+
+.content1InforLeft {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: khaki;
+}
+.content1InforLeft img {
+  max-width: 100%;
+}
+.content1InforRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.content1InforRight p {
+  flex: 1;
+  text-align: center;
+  font-size: calc(1.5vw + 2px);
+  background-color: cornflowerblue;
+}
+
+.content2 {
+  font-size: calc(3vw + 5px);
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: greenyellow;
+}
+
+@media only screen and (max-width: 500px) {
+  .rank {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .RankBox {
+    width: 60%;
+    min-height: 80vw;
+  }
+  /* rank contents*/
+  .RankBox h2 {
+    font-size: calc(3vw + 5px);
+  }
+
+  .content1InforRight p {
+    font-size: calc(3vw + 5px);
+  }
+
+  .content2 {
+    font-size: calc(3vw + 5px);
+  }
 }
