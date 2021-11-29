@@ -23,7 +23,7 @@ function App() {
   const [level, setLevel] = useState(0);
 
   const baseUrl = "https://na1.api.riotgames.com/";
-  const apiKey = "RGAPI-3a95dc48-5571-4db1-9d95-b4a01f67192b";
+  const apiKey = "RGAPI-a59ab991-4dd1-425f-b71d-f077decf7985";
 
   const rankImageMatch = {
     IRON: IRON_,
