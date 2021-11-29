@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   summonerName: "",
   summonerLevel: 0,
+  state_: null,
   Solo_Duo: { tier: "", rank: "", lp: 0, wins: 0, losses: 0, totalgames: 0 },
   Flex: { tier: "", rank: "", lp: 0, wins: 0, losses: 0, totalgames: 0 },
 };
@@ -12,9 +13,10 @@ const Legends = createSlice({
   initialState,
   reducers: {
     setupSummonerName(state, action) {
-      [state.summonerName, state.summonerLevel] = [
+      [state.summonerName, state.summonerLevel, state.state_] = [
         action.payload.summonerName,
         action.payload.summonerLevel,
+        action.payload.state_,
       ];
     },
     setupSummonerSoloRank(state, action) {

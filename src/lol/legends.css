@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: cornflowerblue;
 }
 header {
   background-color: dodgerblue;
@@ -18,6 +17,17 @@ main {
   flex-direction: column;
   justify-content: center;
 }
+
+/*------getAPIkey------*/
+.getAPIkey {
+  margin: 1vw 0;
+  text-align: center;
+  font-size: calc(1.5vw + 5px);
+}
+.getAPIkey a {
+  color: rgb(56, 101, 248);
+}
+/*------------------------*/
 .search {
   height: calc(5vw + 5px);
   background-color: greenyellow;
@@ -68,13 +78,15 @@ main {
   display: flex;
   flex-direction: column;
 
-  border: solid 3px black;
+  border: solid 2px black;
+  border-radius: 15px;
+  background-color: rgb(148, 181, 241);
 }
 /* rank contents*/
 .RankBox h2 {
   margin: 0;
   text-align: center;
-  background-color: springgreen;
+
   font-size: calc(1.5vw + 5px);
   border-bottom: solid 2px black;
 }
@@ -87,15 +99,24 @@ main {
   flex: 1;
   display: flex;
   flex-direction: row;
-  background-color: greenyellow;
 }
-
+.content1 button {
+  padding: 0 5% 0 0;
+  border: none;
+  height: 2vw;
+  text-align: right;
+  font-size: 1.5vw;
+}
+.content1 button:hover {
+  background-color: rgb(99, 99, 243);
+  color: white;
+  cursor: pointer;
+}
 .content1InforLeft {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: khaki;
 }
 .content1InforLeft img {
   max-width: 100%;
@@ -106,10 +127,13 @@ main {
   flex-direction: column;
 }
 .content1InforRight p {
+  margin: 0;
   flex: 1;
-  text-align: center;
-  font-size: calc(1.5vw + 2px);
-  background-color: cornflowerblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: calc(1.5vw + 1px);
 }
 
 .content2 {
@@ -118,7 +142,6 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: greenyellow;
 }
 
 @media only screen and (max-width: 500px) {
@@ -138,10 +161,15 @@ main {
   }
 
   .content1InforRight p {
-    font-size: calc(3vw + 5px);
+    font-size: calc(3vw + 1px);
   }
 
   .content2 {
     font-size: calc(3vw + 5px);
+  }
+
+  .content1 button {
+    height: 3vw;
+    font-size: 2.25vw;
   }
 }
