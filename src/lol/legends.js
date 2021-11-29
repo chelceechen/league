@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios, { Axios } from "axios";
 import "./legends.css";
 import RankCards from "./rankCards";
-
+import "antd/dist/antd.css";
+import { Progress } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectLegends,
@@ -14,22 +15,16 @@ import {
 
 function Legends() {
   const [summonerName, setsummonerName] = useState("");
-  const [apiKey, setApiKey] = useState(
-    "RGAPI-e47addf5-2f5b-4249-8933-c0557b1ffc55"
-  );
+  const [apiKey, setApiKey] = useState("");
+  const [apiKeyT, setApiKeyT] = useState("");
   const [checkApi, setCheckApi] = useState(false);
-  const [windowWidth, setWindowWidth] = useState();
+  const [checkApiT, setCheckApiT] = useState(null);
   const [start, setStart] = useState(false); //to delay updating
   const baseUrl = "https://na1.api.riotgames.com/";
-  const apiKey_ = "RGAPI-9d86f07c-57c1-4196-9363-6608b5f129cc";
+  //const apiKey_ = "RGAPI-9d86f07c-57c1-4196-9363-6608b5f129cc";
 
   const dispatch = useDispatch();
   const legendsInfor = useSelector(selectLegends);
-
-  useEffect(() => {
-    setWindowWidth(document.body.clientWidth);
-    console.log(document.body.clientWidth);
-  }, []);
 
   const getData = async () => {
     dispatch(reNew());
@@ -37,7 +32,7 @@ function Legends() {
 
     try {
       const res = await axios.get(
-        `${baseUrl}lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiKey_}`
+        `${baseUrl}lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiKey}`
       );
 
       dispatch(
@@ -47,11 +42,11 @@ function Legends() {
           state_: "setup",
         })
       );
-      console.log(res);
+
       const rank_ = await axios.get(
-        `${baseUrl}lol/league/v4/entries/by-summoner/${res.data.id}?api_key=${apiKey_}`
+        `${baseUrl}lol/league/v4/entries/by-summoner/${res.data.id}?api_key=${apiKey}`
       );
-      console.log(rank_);
+
       for (let i = 0; i < rank_.data.length; i++) {
         if (rank_.data[i].queueType === "RANKED_SOLO_5x5") {
           dispatch(
@@ -86,28 +81,34 @@ function Legends() {
   };
 
   const handleSearch = () => {
-    if (summonerName !== "") {
+    if (summonerName !== "" && checkApi === true) {
       getData();
       setsummonerName("");
+    } else if (summonerName !== "" && checkApi === false) {
+      alert("Make sure API Key is correct!");
     }
   };
 
   const handleCheck = async () => {
-    try {
-      const res = await axios.get(
-        `${baseUrl}lol/summoner/v4/summoners/by-name/${"aaaa"}?api_key=${apiKey}`
-      );
-      setCheckApi(true);
-    } catch (error) {
-      console.log(error);
-      setCheckApi(false);
+    if (apiKeyT !== "") {
+      try {
+        await axios.get(
+          `${baseUrl}lol/summoner/v4/summoners/by-name/${"aaaa"}?api_key=${apiKeyT}`
+        );
+        setCheckApi(true);
+        setCheckApiT(true);
+        let T = apiKeyT;
+        setApiKey(T);
+        setApiKeyT("");
+      } catch (error) {
+        console.log(error);
+        setCheckApi(false);
+        setCheckApiT(true);
+        let T = apiKeyT;
+        setApiKey(T);
+        setApiKeyT("");
+      }
     }
-  };
-
-  const display = () => {
-    /* console.log(windowWidth);
-    console.log(document.body.clientWidth); */
-    console.log(legendsInfor);
   };
 
   return (
@@ -135,19 +136,42 @@ function Legends() {
             https://developer.riotgames.com
           </a>
         </div>
-
         <div className="checkAPIkey">
           <input
+            value={apiKeyT}
             placeholder="API Key"
             type="text"
             onChange={(e) => {
-              setApiKey(e.target.value);
+              setApiKeyT(e.target.value);
             }}
           />
-          <button onClick={handleCheck}>Check</button>
-          {checkApi ? "true" : "false"}
-        </div>
 
+          <button onClick={handleCheck}>Check</button>
+          {checkApiT ? (
+            checkApi ? (
+              <>
+                <Progress
+                  type="circle"
+                  percent={100}
+                  width={"5vw"}
+                  style={{ fontSize: "1vw" }}
+                />
+              </>
+            ) : (
+              <>
+                <Progress
+                  type="circle"
+                  percent={0}
+                  status="exception"
+                  width={"5vw"}
+                  style={{ fontSize: "1vw" }}
+                />
+              </>
+            )
+          ) : (
+            <></>
+          )}
+        </div>
         <div className="search">
           <input
             value={summonerName}
@@ -158,9 +182,7 @@ function Legends() {
             }}
           />
           <button onClick={handleSearch}>Search</button>
-          <button onClick={display}>Test</button>
         </div>
-
         <div className="summonerInfor">
           {legendsInfor.summonerName !== "" ? (
             <>
